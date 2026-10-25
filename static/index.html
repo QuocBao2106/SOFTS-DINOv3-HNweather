@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f9fd">
+<title>HanoiWeather AI | Dự báo thời tiết Hà Nội</title>
+<style>
+:root{color-scheme:light;--bg:#f5f9fd;--surface:#fff;--surface-soft:#eef6fc;--ink:#173650;--muted:#627b91;--line:#dce8f2;--blue:#2678c8;--blue-deep:#175b9c;--orange:#e96a2c;--orange-soft:#fff0e7;--green:#138b67;--red:#b94b38;--shadow:0 12px 30px rgba(27,76,119,.07);--radius:20px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}*{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--ink)}body{font-size:14px}button,a{font:inherit}button{cursor:pointer}a{color:inherit}#app{height:100dvh;display:flex;flex-direction:column;min-height:0;background:var(--bg)}.topbar{flex:0 0 auto;background:#fff;border-bottom:1px solid var(--line);position:relative;z-index:10}.topbar-inner{max-width:1380px;margin:auto;min-height:76px;padding:0 28px;display:flex;align-items:center;gap:30px}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;min-width:230px}.brand-mark{width:43px;height:43px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(140deg,#f28b4d,#e9652d);color:white;box-shadow:0 8px 20px #e96a2c2e}.brand-mark svg{width:25px;height:25px}.brand-title{font-weight:900;letter-spacing:-.045em;font-size:19px}.brand-title span{color:var(--blue)}.brand-sub{font-size:9px;color:#6a8297;font-weight:850;letter-spacing:.16em;margin-top:4px}.nav{display:flex;align-items:center;gap:6px;flex:1}.nav button,.mobile-nav button{border:0;background:transparent;color:#667f93;padding:12px 13px;border-radius:11px;font-weight:750;font-size:12px;white-space:nowrap}.nav button:hover,.mobile-nav button:hover{background:var(--surface-soft);color:var(--blue)}.nav button.active,.mobile-nav button.active{background:#e9f4ff;color:var(--blue)}.live-state{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#f8fbfe;border-radius:999px;padding:9px 11px;color:#5e768b;font-size:10px;font-weight:850;white-space:nowrap}.live-dot{width:8px;height:8px;background:#159a70;border-radius:50%;box-shadow:0 0 0 3px #159a7019}.mobile-menu{display:none;border:1px solid var(--line);background:white;border-radius:12px;width:42px;height:42px}.mobile-nav{display:none;max-width:1380px;margin:auto;padding:0 18px 12px;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}.mobile-nav.open{display:grid}main{flex:1;min-height:0;overflow:hidden}main>section{height:100%;display:none;overflow:auto;overscroll-behavior:contain;padding:22px 28px 24px}main>section.active{display:block}.container{max-width:1324px;margin:0 auto}.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(330px,.75fr);gap:22px}.hero-main{position:relative;overflow:hidden;border-radius:26px;padding:clamp(24px,3vw,38px);border:1px solid #d7e9f6;background:linear-gradient(115deg,#e3f4ff 0%,#f6fbff 54%,#fff2e7 100%);box-shadow:var(--shadow);min-height:360px}.hero-main:after{content:"";position:absolute;width:270px;height:270px;right:-75px;top:-70px;border-radius:50%;background:radial-gradient(circle,#a9dcff88,transparent 69%);pointer-events:none}.eyebrow{display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.12em;font-size:10px;font-weight:900;color:#b9521e}.eyebrow-dot{width:8px;height:8px;border-radius:50%;background:#16966f}.hero h1{font-size:clamp(30px,3vw,46px);line-height:1.05;letter-spacing:-.055em;margin:18px 0 13px;max-width:620px}.hero-copy{font-size:13px;line-height:1.75;color:#526d82;max-width:620px;margin:0}.location-line{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:750;color:#47647b;margin-top:20px}.hero-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:26px;max-width:650px}.mini-stat{background:#ffffffce;border:1px solid #d9e9f4;border-radius:14px;padding:13px}.mini-stat span{display:block;font-size:10px;color:#698196}.mini-stat strong{display:block;font-size:17px;margin-top:5px}.current-card{background:#fff;border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;min-height:360px}.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.label-sm{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#6b8499;font-weight:900}.muted-sm{font-size:11px;color:#8295a5;margin-top:5px}.weather-icon{font-size:42px;line-height:1}.current-temp{font-size:clamp(54px,6vw,78px);letter-spacing:-.075em;font-weight:780;line-height:1;margin-top:20px}.current-temp small{font-size:24px;letter-spacing:0;vertical-align:top;color:#6b8499}.current-condition{font-size:14px;color:#526d82;margin-top:8px}.current-place{font-weight:850;font-size:13px;margin-top:17px}.divider{height:1px;background:var(--line);margin:21px 0}.current-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.detail{display:flex;align-items:center;gap:10px}.detail-ico{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;background:#edf6ff;color:var(--blue);font-size:17px}.detail strong{display:block;font-size:13px}.detail small{display:block;font-size:10px;color:#7b90a2;margin-top:3px}.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:16px}.kicker{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--orange);font-weight:900;margin-bottom:8px}h2{font-size:clamp(23px,2.3vw,31px);line-height:1.1;letter-spacing:-.045em;margin:0 0 7px}h3{margin:0}.section-desc{font-size:12px;color:var(--muted);line-height:1.6;margin:0}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-size:11px;font-weight:850}.btn:hover{border-color:#a5c9e7;background:#f7fbff}.btn-primary{background:var(--blue);color:white;border-color:var(--blue)}.btn-primary:hover{background:var(--blue-deep);color:white}.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #d3e7f7;background:#f0f8ff;border-radius:999px;color:#276fa9;font-size:10px;font-weight:850;padding:7px 10px;white-space:nowrap}.pill.orange{background:var(--orange-soft);color:#b45121;border-color:#f8d9c7}.pill.green{background:#e9f8f2;color:#117c5b;border-color:#c8edde}.grid-forecast{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(285px,.72fr);gap:16px}.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);min-width:0}.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.panel-title{font-size:14px;font-weight:900}.panel-subtitle{font-size:10px;color:#7a90a3;margin-top:5px;line-height:1.5}.feature-tabs{display:flex;gap:4px;flex-wrap:wrap;background:#f0f6fb;border-radius:12px;padding:4px;margin:17px 0 8px}.feature-tabs button{border:0;background:transparent;color:#678197;font-size:10px;font-weight:850;border-radius:9px;padding:8px 10px}.feature-tabs button.active{color:#206db6;background:#fff;box-shadow:0 2px 7px #153a5510}.chart-wrap{height:260px;position:relative}.chart-wrap canvas{height:100%;width:100%;display:block}.chart-legend{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:7px;padding-top:13px;border-top:1px solid var(--line);font-size:10px;color:#7890a2}.legend-line{display:inline-block;width:16px;height:3px;border-radius:2px;background:var(--blue);margin-right:6px}.ai-panel{background:linear-gradient(150deg,#f1f9ff,#fff);border-color:#d6e9f7}.ai-panel h3{font-size:20px;letter-spacing:-.035em;margin:15px 0 8px}.ai-panel p{font-size:11px;line-height:1.7;color:#5f778c}.ai-insight{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin:15px 0}.ai-insight strong{display:block;font-size:12px;margin-bottom:5px}.ai-insight p{margin:0}.notice{padding:12px 14px;border:1px solid #f2d7b5;background:#fff8ed;color:#87602b;border-radius:13px;font-size:10px;line-height:1.6;margin-top:14px}.notice.error{border-color:#f0d2cf;background:#fff4f2;color:#934336}.notice.success{border-color:#d0ebdf;background:#f0fbf5;color:#267453}.daily-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.day-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:19px 16px;box-shadow:var(--shadow)}.day-week{font-size:12px;font-weight:900}.day-date{font-size:10px;color:#8094a6;margin-top:4px}.day-icon{font-size:32px;margin:15px 0}.day-desc{font-size:10px;color:#647d91;margin-bottom:13px}.day-temps{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:900}.day-temps .low{color:#7e94a7}.day-rain{margin-top:12px;padding-top:11px;border-top:1px solid var(--line);font-size:10px;color:var(--blue);font-weight:800}.models-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:16px}.table-wrap{overflow:auto}.metrics-table{width:100%;border-collapse:collapse;margin-top:15px;font-size:11px}.metrics-table th,.metrics-table td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);white-space:nowrap}.metrics-table th{font-size:10px;color:#72899d;background:#f4f8fb}.metrics-table th:first-child{border-radius:8px 0 0 8px}.metrics-table td:not(:first-child),.metrics-table th:not(:first-child){text-align:right}.metrics-table tr:last-child td{border-bottom:0}.model-note{font-size:11px;line-height:1.7;color:#607b91;margin:14px 0 0}.model-visual{margin-top:17px;display:grid;gap:14px}.metric-bar{display:grid;grid-template-columns:96px 1fr 56px;gap:10px;align-items:center;font-size:10px}.metric-bar .name{font-weight:850}.track{height:9px;border-radius:99px;background:#edf2f7;overflow:hidden}.fill{height:100%;border-radius:99px}.fill.softs{background:var(--blue)}.fill.dino{background:var(--orange)}.metric-bar .num{text-align:right;font-variant-numeric:tabular-nums;color:#647c90}.source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.source-card{background:white;border:1px solid var(--line);border-radius:17px;padding:19px}.source-icon{width:37px;height:37px;border-radius:12px;display:grid;place-items:center;background:#edf6ff;color:var(--blue);font-size:18px;margin-bottom:14px}.source-card strong{font-size:13px}.source-card p{color:#678095;font-size:11px;line-height:1.7;margin:8px 0 0}.source-card a{color:var(--blue);font-weight:800;text-decoration:none}.data-list{margin:14px 0 0;padding-left:18px;color:#60788d;font-size:11px;line-height:1.9}.loading{color:#6b8499;font-size:11px}.bottom-note{font-size:10px;color:#7b91a4;margin-top:15px;line-height:1.7}.footerline{flex:0 0 auto;min-height:30px;padding:7px 28px;color:#8297a8;font-size:9px;border-top:1px solid var(--line);background:#fff;display:flex;justify-content:space-between;gap:12px}.mobile-only{display:none}
+@media(max-width:1100px){.topbar-inner{gap:15px;padding:0 18px}.brand{min-width:190px}.nav button{padding:11px 8px;font-size:11px}.live-state{display:none}.hero{grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr)}main>section{padding:18px}.hero-main,.current-card{min-height:340px}.panel{padding:18px}}
+@media(max-width:780px){html,body{overflow:hidden}.topbar-inner{min-height:68px;padding:0 15px;justify-content:space-between}.nav{display:none}.mobile-menu{display:grid;place-items:center}.brand{min-width:0}.brand-title{font-size:17px}.mobile-only{display:inline}.topbar.open .mobile-nav{display:grid}main>section{padding:15px;overflow-y:auto}.hero,.grid-forecast,.models-grid{grid-template-columns:1fr}.hero-main{min-height:auto;padding:23px}.current-card{min-height:auto}.hero h1{font-size:32px}.hero-stats{margin-top:20px}.daily-grid{grid-template-columns:repeat(5,145px);overflow-x:auto;padding:0 0 8px}.source-grid{grid-template-columns:1fr}.section-head{align-items:flex-start;flex-direction:column}.section-head .btn{align-self:flex-start}.panel-head{flex-direction:column}.feature-tabs button{flex:1}.chart-wrap{height:255px}.footerline{display:none}.current-temp{font-size:60px}}
+@media(max-width:390px){.hero-stats{grid-template-columns:1fr}.current-details{gap:12px}.panel{padding:15px}.feature-tabs{gap:2px}.feature-tabs button{padding:8px 6px;font-size:9px}}
+</style>
+</head>
+<body>
+<div id="app">
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#overview" aria-label="HanoiWeather AI trang chủ"><div class="brand-mark">🌦</div><div><div class="brand-title">Hanoi<span>Weather</span></div><div class="brand-sub">AI FORECAST STUDIO</div></div></a>
+    <nav class="nav" aria-label="Điều hướng chính">
+      <button class="active" data-view="overview">Tổng quan</button><button data-view="hourly">Dự báo 24h</button><button data-view="daily">5 ngày</button><button data-view="model">Mô hình AI</button><button data-view="data">Dữ liệu</button>
+    </nav>
+    <div class="live-state"><span class="live-dot" id="liveDot"></span><span id="serviceState">Đang kiểm tra dịch vụ</span></div>
+    <button class="mobile-menu" id="mobileMenu" aria-label="Mở menu" aria-expanded="false">☰</button>
+  </div>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Điều hướng di động">
+    <button class="active" data-view="overview">Tổng quan</button><button data-view="hourly">Dự báo 24h</button><button data-view="daily">5 ngày</button><button data-view="model">Mô hình AI</button><button data-view="data">Dữ liệu</button>
+  </nav>
+</header>
+<main>
+<section id="view-overview" class="active" data-section="overview">
+<div class="container">
+  <div class="hero">
+    <div class="hero-main">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Thời tiết kết hợp AI</div>
+      <h1>Hiểu thời tiết Hà Nội.<br>Chủ động cho ngày mới.</h1>
+      <p class="hero-copy">Theo dõi điều kiện thời tiết mới nhất từ Open-Meteo và khám phá dự báo 24 giờ từ mô hình chuỗi thời gian SOFTS đã huấn luyện.</p>
+      <div class="location-line">📍 Hà Nội, Việt Nam <span>·</span> Asia/Ho_Chi_Minh</div>
+      <div class="hero-stats">
+        <div class="mini-stat"><span>Độ ẩm tương đối</span><strong id="overviewHumidity">Đang tải…</strong></div>
+        <div class="mini-stat"><span>Tốc độ gió</span><strong id="overviewWind">Đang tải…</strong></div>
+        <div class="mini-stat"><span>Lượng mưa hiện tại</span><strong id="overviewRain">Đang tải…</strong></div>
+      </div>
+    </div>
+    <div class="current-card">
+      <div>
+        <div class="card-top"><div><div class="label-sm">Điều kiện hiện tại</div><div class="muted-sm" id="currentUpdated">Đang lấy dữ liệu thời tiết…</div></div><div class="weather-icon" id="currentIcon">🌤️</div></div>
+        <div class="current-temp" id="currentTemp">—<small>°C</small></div>
+        <div class="current-condition" id="currentCondition">Đang kết nối Open-Meteo</div>
+        <div class="current-place">Hà Nội, Việt Nam</div>
+      </div>
+      <div><div class="divider"></div><div class="current-details">
+        <div class="detail"><div class="detail-ico">💧</div><div><strong id="currentHumidity">—</strong><small>Độ ẩm</small></div></div>
+        <div class="detail"><div class="detail-ico">💨</div><div><strong id="currentWind">—</strong><small>Gió</small></div></div>
+        <div class="detail"><div class="detail-ico">🌧️</div><div><strong id="currentPrecip">—</strong><small>Lượng mưa</small></div></div>
+        <div class="detail"><div class="detail-ico">☁️</div><div><strong id="currentCloud">—</strong><small>Mây che phủ</small></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div id="overviewNotice" class="notice" hidden></div>
+  <div class="section-head" style="margin-top:23px"><div><div class="kicker">Trung tâm dự báo</div><h2>Hôm nay, theo dữ liệu mới nhất</h2><p class="section-desc">Chọn chức năng để xem chi tiết, không cần cuộn qua nhiều mục trên một trang dài.</p></div><button class="btn btn-primary" id="refreshAll">↻ Cập nhật dữ liệu</button></div>
+  <div class="grid-forecast">
+    <div class="panel"><div class="panel-head"><div><div class="panel-title">Dự báo SOFTS trong 24 giờ</div><div class="panel-subtitle">Kết quả do mô hình AI tạo từ chuỗi dữ liệu 168 giờ gần nhất.</div></div><span class="pill orange" id="overviewModelPill">Kiểm tra mô hình</span></div><div class="ai-insight"><strong id="overviewInsightTitle">Đang chuẩn bị dự báo…</strong><p id="overviewInsight">Đang kiểm tra mô hình đã xuất và lấy dữ liệu đầu vào.</p></div><button class="btn btn-primary" data-jump="hourly">Xem biểu đồ 24 giờ →</button><div id="overviewAiNotice" class="notice" hidden></div></div>
+    <div class="panel ai-panel"><div class="eyebrow">AI + WEATHER DATA</div><h3>Dự báo rõ ràng, nguồn dữ liệu minh bạch.</h3><p>SOFTS dự báo chuỗi thời gian đa biến; điều kiện hiện tại và dự báo nhiều ngày được cung cấp riêng bởi Open-Meteo.</p><div class="ai-insight"><strong>Không trộn lẫn các nguồn</strong><p>Giao diện ghi rõ phần nào do nhà cung cấp thời tiết trả về và phần nào là dự báo AI của dự án.</p></div><button class="btn" data-jump="model">Tìm hiểu mô hình AI →</button></div>
+  </div>
+</div>
+</section>
+<section id="view-hourly" data-section="hourly">
+<div class="container"><div class="section-head"><div><div class="kicker">AI forecast workspace</div><h2>Dự báo 24 giờ tiếp theo</h2><p class="section-desc">Dự báo SOFTS từ 168 giờ dữ liệu đầu vào mới nhất. Đơn vị thay đổi theo biến được chọn.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><span class="pill" id="lastInputPill">Chưa có dữ liệu</span><button class="btn btn-primary" id="refreshPrediction">↻ Chạy dự báo mới</button></div></div>
+<div id="predictionNotice" class="notice" hidden></div>
+<div class="grid-forecast">
+  <div class="panel"><div class="panel-head"><div><div class="panel-title" id="chartTitle">Nhiệt độ dự báo</div><div class="panel-subtitle" id="chartSubtitle">Chờ dữ liệu mô hình…</div></div><span class="pill green">SOFTS · 24H</span></div>
+    <div class="feature-tabs"><button class="active" data-feature="temperature_2m">Nhiệt độ</button><button data-feature="relative_humidity_2m">Độ ẩm</button><button data-feature="precipitation">Lượng mưa</button><button data-feature="wind_speed_10m">Gió</button><button data-feature="cloud_cover">Mây</button></div>
+    <div class="chart-wrap"><canvas id="aiChart"></canvas></div><div class="chart-legend"><span><span class="legend-line"></span> Dự báo SOFTS</span><span id="chartTimeRange">24 mốc giờ · giờ Việt Nam</span></div>
+  </div>
+  <aside class="panel ai-panel"><div class="label-sm">Thông tin dự báo</div><h3 id="predictionHeadline">Đang chờ mô hình</h3><p id="predictionText">Khi checkpoint được nạp thành công, các chỉ số dự báo sẽ hiển thị tại đây.</p><div class="ai-insight"><strong>Điểm bắt đầu dự báo</strong><p id="predictionStarts">—</p></div><div class="ai-insight"><strong>Thời điểm dữ liệu đầu vào cuối cùng</strong><p id="inputEnds">—</p></div><p class="bottom-note" id="predictionCaveat">Dự báo mang tính thử nghiệm, không thay thế cảnh báo khí tượng chính thức.</p></aside>
+</div></div>
+</section>
+<section id="view-daily" data-section="daily">
+<div class="container"><div class="section-head"><div><div class="kicker">5-day outlook</div><h2>Dự báo 5 ngày</h2><p class="section-desc">Dự báo nhiều ngày được cung cấp bởi Open-Meteo, không phải đầu ra của SOFTS.</p></div><button class="btn btn-primary" id="refreshDaily">↻ Làm mới</button></div><div id="dailyNotice" class="notice" hidden></div><div class="daily-grid" id="dailyGrid"><div class="panel loading">Đang lấy dự báo nhiều ngày…</div></div><p class="bottom-note">Nguồn: Open-Meteo Forecast API. Các thông tin và số liệu được cập nhật theo phản hồi API.</p></div>
+</section>
+<section id="view-model" data-section="model">
+<div class="container"><div class="section-head"><div><div class="kicker">Model transparency</div><h2>Mô hình AI & kết quả đánh giá</h2><p class="section-desc">Phân biệt hiệu năng đã đo trên tập test lịch sử với dự báo trực tiếp đang chạy trên web.</p></div><span class="pill" id="modelLoadedPill">Đang kiểm tra</span></div>
+<div class="models-grid"><div class="panel"><div class="panel-title">SOFTS gốc — backtest lịch sử</div><div class="panel-subtitle">ERA5, tập test tách theo thời gian. Các chỉ số không phải cam kết chính xác cho thời tiết tương lai.</div><div class="table-wrap"><table class="metrics-table"><thead><tr><th>Biến thời tiết</th><th>MAE</th><th>RMSE</th></tr></thead><tbody id="metricsBody"><tr><td colspan="3">Đang tải chỉ số…</td></tr></tbody></table></div><p class="model-note" id="metricsWarning">Đang tải thông tin đánh giá…</p></div>
+<div class="panel"><div class="panel-title">Thí nghiệm thay encoder bằng DINOv3</div><div class="panel-subtitle">MAE thấp hơn là tốt hơn; đơn vị khác nhau giữa các biến.</div><div class="model-visual" id="comparisonBars"></div><div class="notice">Trong cấu hình thử nghiệm đã thực hiện, DINOv3 có MAE cao hơn SOFTS gốc ở cả 5 biến. Website sử dụng SOFTS gốc cho dự báo AI đầu tiên; DINOv3 được giữ lại để đối chứng nghiên cứu.</div></div></div>
+<div class="panel" style="margin-top:16px"><div class="panel-title">Trạng thái triển khai</div><div class="model-note" id="deploymentInfo">Đang kiểm tra backend và model artifacts…</div></div></div>
+</section>
+<section id="view-data" data-section="data">
+<div class="container"><div class="section-head"><div><div class="kicker">Data sources & limitations</div><h2>Dữ liệu, nguồn và giới hạn</h2><p class="section-desc">Một hệ thống đáng tin cậy cần nói rõ dữ liệu đến từ đâu và mô hình đã được kiểm tra như thế nào.</p></div></div>
+<div class="source-grid"><div class="source-card"><div class="source-icon">🌐</div><strong>Dữ liệu cập nhật</strong><p>Điều kiện hiện tại, chuỗi theo giờ và dự báo nhiều ngày do <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> cung cấp. Các yêu cầu API được gửi từ backend.</p></div><div class="source-card"><div class="source-icon">🧠</div><strong>SOFTS đã huấn luyện</strong><p>Nhận 168 giờ × 5 biến và tạo dự báo 24 giờ × 5 biến. Trọng số, scaler và cấu hình phải được đặt vào thư mục model artifacts để API dự báo hoạt động.</p></div><div class="source-card"><div class="source-icon">📚</div><strong>Dữ liệu huấn luyện</strong><p>Mô hình hiện tại được huấn luyện trên ERA5 đến cuối năm 2025. ERA5 là dữ liệu tái phân tích tại một điểm lưới gần Hà Nội, không phải đo trực tiếp tại trạm.</p></div></div>
+<div class="panel" style="margin-top:16px"><div class="panel-title">Các giới hạn cần biết</div><ul class="data-list"><li>Đầu vào trực tiếp từ Open-Meteo khác nguồn với dữ liệu ERA5 dùng huấn luyện; có thể có sai lệch phân phối.</li><li>Dự báo SOFTS là thử nghiệm học thuật, không dùng thay cảnh báo thời tiết chính thức.</li><li>MAE/RMSE trên tập test lịch sử không dự đoán chính xác sai số trong mọi điều kiện thực tế.</li><li>Chức năng tự động huấn luyện lại chưa được bật trong website. Việc cập nhật mô hình nên chạy theo quy trình riêng, được kiểm tra trước khi thay phiên bản đang phục vụ.</li></ul><div class="notice" id="dataStatus">Đang kiểm tra trạng thái kết nối dữ liệu…</div></div>
+</div>
+</section>
+</main>
+<footer class="footerline"><span>HanoiWeather AI · Dự án thử nghiệm dự báo thời tiết</span><span id="footerApi">API: đang kiểm tra</span></footer>
+</div>
+<script>
+(() => {
+  const featureMeta = {
+    temperature_2m: {name:'Nhiệt độ', unit:'°C', color:'#e96a2c'},
+    relative_humidity_2m: {name:'Độ ẩm', unit:'%', color:'#2678c8'},
+    precipitation: {name:'Lượng mưa', unit:'mm', color:'#3698bc'},
+    wind_speed_10m: {name:'Tốc độ gió', unit:'km/h', color:'#159b72'},
+    cloud_cover: {name:'Độ che phủ mây', unit:'%', color:'#8067c7'}
+  };
+  const state = {current:null, daily:[], prediction:null, feature:'temperature_2m', status:null, metrics:null};
+  const $ = id => document.getElementById(id);
+  const fmt = (value, digits=1) => value === null || value === undefined || !Number.isFinite(Number(value)) ? '—' : Number(value).toFixed(digits);
+  const dateText = (value, options={day:'2-digit',month:'short'}) => {
+    if (!value) return '—';
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return value;
+    return new Intl.DateTimeFormat('vi-VN', {...options, timeZone:'Asia/Ho_Chi_Minh'}).format(d);
+  };
+  function weatherDesc(code) {
+    if (code === 0) return ['☀️','Trời quang'];
+    if ([1,2].includes(code)) return ['🌤️','Ít mây'];
+    if (code === 3) return ['☁️','Nhiều mây'];
+    if ([45,48].includes(code)) return ['🌫️','Sương mù'];
+    if ([51,53,55,56,57].includes(code)) return ['🌦️','Mưa phùn'];
+    if ([61,63,65,66,67,80,81,82].includes(code)) return ['🌧️','Có mưa'];
+    if ([95,96,99].includes(code)) return ['⛈️','Dông'];
+    return ['🌥️','Thời tiết biến đổi'];
+  }
+  async function api(path) {
+    const response = await fetch(path, {headers:{'Accept':'application/json'}});
+    let data;
+    try { data = await response.json(); } catch { data = {}; }
+    if (!response.ok) throw new Error(data.detail || `API lỗi (${response.status})`);
+    return data;
+  }
+  function setNotice(id, message, type='') {
+    const el = $(id); if (!el) return;
+    if (!message) {el.hidden=true;el.textContent='';el.className='notice';return;}
+    el.hidden=false;el.className='notice'+(type?' '+type:'');el.textContent=message;
+  }
+  function setView(name) {
+    document.querySelectorAll('[data-section]').forEach(s => s.classList.toggle('active', s.dataset.section === name));
+    document.querySelectorAll('[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === name));
+    $('topbar').classList.remove('open');$('mobileMenu').setAttribute('aria-expanded','false');
+    try { history.replaceState(null,'','#'+name); } catch(e) {}
+    if(name==='hourly') drawChart();
+  }
+  document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+  document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.jump)));
+  $('mobileMenu').addEventListener('click',()=>{
+    const open=$('topbar').classList.toggle('open');$('mobileMenu').setAttribute('aria-expanded',String(open));
+  });
+  function renderCurrent(d) {
+    state.current=d;
+    const [icon,desc]=weatherDesc(d.weather_code);
+    $('currentIcon').textContent=icon;
+    $('currentTemp').innerHTML=`${fmt(d.temperature_2m,1)}<small>°C</small>`;
+    $('currentCondition').textContent=desc;
+    $('currentUpdated').textContent=`Cập nhật theo mốc ${dateText(d.time,{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short',year:'numeric'})}`;
+    $('currentHumidity').textContent=`${fmt(d.relative_humidity_2m,0)}%`;
+    $('currentWind').textContent=`${fmt(d.wind_speed_10m,1)} km/h`;
+    $('currentPrecip').textContent=`${fmt(d.precipitation,1)} mm`;
+    $('currentCloud').textContent=`${fmt(d.cloud_cover,0)}%`;
+    $('overviewHumidity').textContent=`${fmt(d.relative_humidity_2m,0)}%`;
+    $('overviewWind').textContent=`${fmt(d.wind_speed_10m,1)} km/h`;
+    $('overviewRain').textContent=`${fmt(d.precipitation,1)} mm`;
+    setNotice('overviewNotice','');
+  }
+  function renderDaily(d) {
+    state.daily=d.daily||[];
+    const grid=$('dailyGrid');grid.innerHTML='';
+    state.daily.forEach((day,i)=>{
+      const [icon,desc]=weatherDesc(day.weather_code);
+      const date = new Date(day.date+'T12:00:00+07:00');
+      const label = i===0?'Hôm nay':i===1?'Ngày mai':new Intl.DateTimeFormat('vi-VN',{weekday:'short',timeZone:'Asia/Ho_Chi_Minh'}).format(date);
+      const card=document.createElement('article');card.className='day-card';
+      const rain=day.precipitation_probability_max;
+      card.innerHTML=`<div class="day-week">${label}</div><div class="day-date">${dateText(day.date+'T12:00:00+07:00',{day:'2-digit',month:'short'})}</div><div class="day-icon">${icon}</div><div class="day-desc">${desc}</div><div class="day-temps"><span>${fmt(day.temperature_max,0)}°</span><span class="low">${fmt(day.temperature_min,0)}°</span></div><div class="day-rain">☂ ${rain===null||rain===undefined?'—':fmt(rain,0)+'%'} khả năng mưa</div>`;
+      grid.appendChild(card);
+    });
+    if(!state.daily.length) grid.innerHTML='<div class="panel">Chưa có dữ liệu dự báo nhiều ngày.</div>';
+    setNotice('dailyNotice','');
+  }
+  function renderPrediction(d) {
+    state.prediction=d;
+    $('lastInputPill').textContent=`Đầu vào đến ${dateText(d.last_input_time,{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'})}`;
+    $('overviewModelPill').textContent='SOFTS · sẵn sàng';$('overviewModelPill').className='pill green';
+    $('overviewInsightTitle').textContent='Đã tạo dự báo AI 24 giờ';
+    $('overviewInsight').textContent=`Mô hình đã nhận ${d.input_hours} giờ dữ liệu và tạo ${d.forecast_hours} mốc dự báo. Mốc đầu dự báo: ${dateText(d.forecast?.[0]?.time,{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'})}.`;
+    $('predictionHeadline').textContent='Dự báo AI đã sẵn sàng';
+    $('predictionText').textContent=`SOFTS đã tạo ${d.forecast_hours} mốc giờ cho Hà Nội. Chọn biến để xem đường dự báo.`;
+    $('predictionStarts').textContent=dateText(d.forecast?.[0]?.time,{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short',year:'numeric'});
+    $('inputEnds').textContent=dateText(d.last_input_time,{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short',year:'numeric'});
+    $('predictionCaveat').textContent=d.note||'Dự báo thử nghiệm.';
+    setNotice('predictionNotice','');setNotice('overviewAiNotice','');
+    drawChart();
+  }
+  function drawChart() {
+    const canvas=$('aiChart');if(!canvas||!state.prediction?.forecast?.length)return;
+    const values=state.prediction.forecast.map(r=>Number(r[state.feature])).filter(v=>Number.isFinite(v));
+    if(!values.length)return;
+    const meta=featureMeta[state.feature];$('chartTitle').textContent=`${meta.name} dự báo`;$('chartSubtitle').textContent=`Đơn vị: ${meta.unit} · ${values.length} mốc giờ`;
+    $('chartTimeRange').textContent=`${dateText(state.prediction.forecast[0].time,{hour:'2-digit',minute:'2-digit'})} — ${dateText(state.prediction.forecast.at(-1).time,{hour:'2-digit',minute:'2-digit'})} · giờ Việt Nam`;
+    const rect=canvas.getBoundingClientRect();if(rect.width<20||rect.height<20)return;
+    const ratio=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.floor(rect.width*ratio);canvas.height=Math.floor(rect.height*ratio);
+    const ctx=canvas.getContext('2d');ctx.setTransform(ratio,0,0,ratio,0,0);const w=rect.width,h=rect.height;ctx.clearRect(0,0,w,h);
+    const left=43,right=12,top=17,bottom=30,pw=w-left-right,ph=h-top-bottom;
+    let min=Math.min(...values),max=Math.max(...values);if(min===max){min-=1;max+=1;}const pad=(max-min)*.15;min-=pad;max+=pad;
+    const x=i=>left+i*pw/Math.max(1,values.length-1), y=v=>top+(max-v)/(max-min)*ph;
+    ctx.font='10px system-ui';ctx.fillStyle='#6f879b';ctx.strokeStyle='#e2edf5';ctx.lineWidth=1;
+    for(let j=0;j<=4;j++){const yy=top+j*ph/4;ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(w-right,yy);ctx.stroke();ctx.fillText((max-j*(max-min)/4).toFixed(1),1,yy+3);}
+    const gradient=ctx.createLinearGradient(0,top,0,top+ph);gradient.addColorStop(0,meta.color+'33');gradient.addColorStop(1,meta.color+'00');ctx.beginPath();values.forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v)));ctx.lineTo(x(values.length-1),top+ph);ctx.lineTo(x(0),top+ph);ctx.closePath();ctx.fillStyle=gradient;ctx.fill();
+    ctx.beginPath();values.forEach((v,i)=>i?ctx.lineTo(x(i),y(v)):ctx.moveTo(x(i),y(v)));ctx.strokeStyle=meta.color;ctx.lineWidth=2.8;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();
+    const labelCount=Math.min(6,values.length);for(let i=0;i<labelCount;i++){const idx=Math.round(i*(values.length-1)/Math.max(1,labelCount-1));const date=state.prediction.forecast[idx].time;const label=date.slice(11,16);ctx.fillStyle='#6f879b';ctx.fillText(label,Math.max(0,x(idx)-12),h-8);}
+  }
+  document.querySelectorAll('[data-feature]').forEach(b=>b.addEventListener('click',()=>{state.feature=b.dataset.feature;document.querySelectorAll('[data-feature]').forEach(x=>x.classList.toggle('active',x===b));drawChart();}));
+  async function loadStatus(){
+    try{const s=await api('/api/status');state.status=s;$('serviceState').textContent=s.model_loaded?'AI sẵn sàng':'Dữ liệu trực tuyến';$('liveDot').style.background=s.model_loaded?'#159a70':'#df9a32';$('modelLoadedPill').textContent=s.model_loaded?'SOFTS đã nạp':'Thiếu model';$('modelLoadedPill').className='pill '+(s.model_loaded?'green':'orange');$('deploymentInfo').textContent=s.model_loaded?`SOFTS đã được nạp trên ${s.device}. Dữ liệu huấn luyện ghi trong config kết thúc: ${s.training_data_end}.`:`Backend đang hoạt động, nhưng mô hình chưa sẵn sàng: ${s.model_error||'thiếu artifact'}. Điều kiện để bật dự báo AI: thêm checkpoint.pth, scaler.pkl và config.json vào đúng thư mục rồi khởi động lại.`;$('footerApi').textContent=s.model_loaded?'API: connected · SOFTS loaded':'API: connected · model pending';$('dataStatus').textContent=`Backend đã kết nối. Model loaded: ${s.model_loaded?'có':'chưa'}. Nguồn dữ liệu live: ${s.weather_source}.`;}catch(e){$('serviceState').textContent='API chưa kết nối';$('liveDot').style.background='#c04e40';$('modelLoadedPill').textContent='API chưa kết nối';$('modelLoadedPill').className='pill orange';$('deploymentInfo').textContent='Chưa kết nối được backend API: '+e.message;$('footerApi').textContent='API: offline';$('dataStatus').textContent='Chưa kết nối được API: '+e.message;}}
+  async function loadCurrent(){try{renderCurrent(await api('/api/weather/current'));}catch(e){setNotice('overviewNotice','Không lấy được thời tiết hiện tại: '+e.message+' · Kiểm tra backend hoặc kết nối mạng.','error');}}
+  async function loadDaily(){try{renderDaily(await api('/api/weather/daily'));}catch(e){$('dailyGrid').innerHTML='<div class="panel">Không tải được dữ liệu dự báo nhiều ngày.</div>';setNotice('dailyNotice','Không lấy được dự báo nhiều ngày: '+e.message,'error');}}
+  async function loadPrediction(){try{renderPrediction(await api('/api/forecast/ai'));}catch(e){$('overviewModelPill').textContent='Model chưa sẵn sàng';$('overviewModelPill').className='pill orange';$('overviewInsightTitle').textContent='Chưa tạo được dự báo AI';$('overviewInsight').textContent=e.message;$('predictionHeadline').textContent='Model chưa sẵn sàng';$('predictionText').textContent=e.message;setNotice('overviewAiNotice',e.message,'error');setNotice('predictionNotice',e.message,'error');}}
+  async function loadMetrics(){try{const d=await api('/api/forecast/metrics');$('metricsBody').innerHTML=d.metrics.map(m=>`<tr><td><strong>${m.label}</strong><br><span style="font-size:9px;color:#8195a6">${m.unit}</span></td><td>${Number(m.mae).toFixed(4)}</td><td>${Number(m.rmse).toFixed(4)}</td></tr>`).join('');$('metricsWarning').textContent=d.warning;const dino=[{label:'Nhiệt độ',softs:1.3154,dino:2.3762},{label:'Độ ẩm',softs:5.5028,dino:8.9375},{label:'Lượng mưa',softs:.2441,dino:.2690},{label:'Tốc độ gió',softs:2.3621,dino:2.7105},{label:'Độ che phủ mây',softs:18.2652,dino:23.6597}];$('comparisonBars').innerHTML=dino.map(m=>{const max=Math.max(m.softs,m.dino);return `<div class="metric-bar"><div class="name">${m.label}</div><div style="display:grid;gap:5px"><div class="track"><div class="fill softs" style="width:${m.softs/max*100}%"></div></div><div class="track"><div class="fill dino" style="width:${m.dino/max*100}%"></div></div></div><div class="num">${m.softs.toFixed(2)} / ${m.dino.toFixed(2)}</div></div>`}).join('');}catch(e){$('metricsWarning').textContent='Không tải được chỉ số: '+e.message;}}
+  async function refreshAll(){await Promise.all([loadStatus(),loadCurrent(),loadDaily(),loadPrediction(),loadMetrics()]);}
+  $('refreshAll').addEventListener('click',refreshAll);$('refreshPrediction').addEventListener('click',loadPrediction);$('refreshDaily').addEventListener('click',loadDaily);
+  window.addEventListener('resize',drawChart);
+  const initial=location.hash.replace('#','');setView(['overview','hourly','daily','model','data'].includes(initial)?initial:'overview');
+  refreshAll();
+})();
+</script>
+</body>
+</html>
