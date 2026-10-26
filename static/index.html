@@ -101,6 +101,95 @@ main>section{overflow:hidden;padding:14px 22px}
   .footerline{padding:6px 14px}
 }
 
+
+/* Approved layout sync: independent viewport per tab; preserve live SOFTS API wiring. */
+#app{height:100dvh;min-height:0}
+.topbar-inner{min-height:64px!important}
+main{flex:1 1 auto;min-height:0;height:calc(100dvh - 90px);overflow:hidden}
+main>section{height:100%;max-height:100%;min-height:0;box-sizing:border-box;overflow-x:hidden;overflow-y:hidden;padding:12px 22px 10px!important}
+main>section.active{display:block}
+/* Today: let the weather hero use spare space, keep hourly AI summary at the bottom. */
+#view-overview.active>.container{height:100%;display:flex;flex-direction:column;gap:12px}
+#view-overview .hero{flex:1 1 auto;min-height:0;align-items:stretch;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:14px}
+#view-overview .hero-main,#view-overview .current-card{min-height:0}
+#view-overview .hero-main{padding:clamp(20px,2.5vh,32px)}
+#view-overview .hero h1{margin:7px 0;font-size:clamp(34px,3.2vw,46px)}
+#view-overview .hero-copy{line-height:1.45}
+#view-overview .location-line{margin-top:12px}
+#view-overview .hero-stats{margin-top:16px;gap:8px}
+#view-overview .mini-stat{padding:10px}
+#view-overview .current-card{padding:clamp(17px,1.8vw,23px)}
+#view-overview .current-temp{margin-top:13px;font-size:clamp(54px,5.5vw,72px)}
+#view-overview .divider{margin:13px 0}
+#view-overview .overview-ai{flex:0 0 auto;margin-top:0;padding:12px 14px}
+#view-overview .overview-ai-meta{margin:5px 0 8px;font-size:10px;line-height:1.4}
+#view-overview .overview-hourly{gap:7px}
+#view-overview .hour-chip{padding:8px 5px}
+#view-overview .hour-chip strong{font-size:16px}
+/* 24-hour forecast: chart panel fills this tab only; the chart cannot collapse away. */
+#view-hourly.active>.container{height:100%;display:flex;flex-direction:column;min-height:0;gap:8px}
+#view-hourly .section-head{flex:0 0 auto;margin:0!important;align-items:center}
+#view-hourly .grid-forecast{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr);gap:0;overflow:hidden}
+#view-hourly .grid-forecast>.panel{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:clamp(14px,1.8vw,22px)}
+#view-hourly .grid-forecast>.ai-panel{display:none!important}
+#view-hourly .panel-head{flex:0 0 auto;align-items:center}
+#view-hourly .feature-tabs{flex:0 0 auto;margin:10px 0 7px;padding:3px}
+#view-hourly .feature-tabs button{padding:8px 10px}
+#view-hourly .chart-wrap{flex:1 1 auto;height:auto;min-height:220px;max-height:none}
+#view-hourly .chart-legend{flex:0 0 auto;margin-top:7px;padding-top:10px}
+#view-hourly #predictionNotice:not([hidden]){flex:0 0 auto;margin:0}
+/* Other tabs size themselves independently and scroll only when genuinely needed. */
+#view-daily.active,#view-model.active,#view-data.active{overflow-y:auto;overscroll-behavior:contain}
+#view-daily .section-head,#view-model .section-head,#view-data .section-head{margin-bottom:12px}
+#view-daily .daily-grid{gap:10px}
+#view-daily .day-card{padding:clamp(14px,1.4vw,18px) clamp(11px,1.1vw,15px)}
+#view-daily .day-icon{margin:12px 0;font-size:29px}
+#view-model .models-grid{gap:12px}
+#view-model .panel{padding:clamp(14px,1.5vw,20px)}
+#view-model .metrics-table{margin-top:10px}
+#view-model .metrics-table th,#view-model .metrics-table td{padding:9px 8px}
+#view-model .model-note{line-height:1.5;margin-top:9px}
+#view-data .source-grid{gap:10px}
+#view-data .source-card{padding:16px}
+#view-data .source-card p{line-height:1.5}
+@media(min-width:761px) and (max-height:720px){
+  main>section{padding-top:8px!important;padding-bottom:8px!important}
+  #view-overview.active>.container{gap:8px}
+  #view-overview .hero-main{padding:15px}
+  #view-overview .hero-stats{margin-top:10px}
+  #view-overview .current-card{padding:15px}
+  #view-overview .current-temp{font-size:52px;margin-top:8px}
+  #view-overview .divider{margin:8px 0}
+  #view-overview .overview-ai{padding:9px 11px}
+  #view-overview .overview-hourly{gap:5px}
+  #view-overview .hour-chip{padding:5px 3px}
+  #view-hourly .feature-tabs{margin:7px 0 5px}
+  #view-hourly .chart-wrap{min-height:170px}
+}
+@media(max-width:760px){
+  main{height:auto;min-height:0;overflow:hidden}
+  main>section{height:100%;max-height:100%;overflow-y:auto;overflow-x:hidden;padding:12px 14px 16px!important}
+  #view-overview.active>.container{height:auto;min-height:100%;gap:12px}
+  #view-overview .hero{flex:0 0 auto;grid-template-columns:minmax(0,1fr);gap:10px}
+  #view-overview .hero-main,#view-overview .current-card{min-height:0;padding:18px}
+  #view-overview .overview-ai{padding:12px}
+  #view-overview .overview-ai-top{align-items:flex-start}
+  #view-overview .overview-ai-title{flex-wrap:wrap}
+  #view-overview .overview-hourly{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #view-hourly.active>.container{height:auto;min-height:100%}
+  #view-hourly .section-head{align-items:flex-start;flex-direction:row}
+  #view-hourly .grid-forecast{flex:0 0 auto;display:block;overflow:visible}
+  #view-hourly .grid-forecast>.panel{height:auto;overflow:visible}
+  #view-hourly .chart-wrap{height:clamp(230px,36vh,330px);min-height:230px;flex:none}
+  #view-hourly .panel-head{align-items:flex-start}
+  #view-hourly .feature-tabs{flex-wrap:wrap}
+  #view-hourly .feature-tabs button{flex:1 1 28%}
+  #view-daily.active,#view-model.active,#view-data.active{height:auto;min-height:100%;overflow:visible}
+  #view-daily .daily-grid{grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}
+  #view-model .models-grid{grid-template-columns:minmax(0,1fr)}
+  #view-data .source-grid{grid-template-columns:minmax(0,1fr)}
+}
+
 </style>
 </head>
 <body>
