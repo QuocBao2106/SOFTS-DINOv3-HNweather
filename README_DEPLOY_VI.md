@@ -68,3 +68,31 @@ Nếu checkpoint lớn hơn 100 MB, không commit trực tiếp file đó lên G
 - Bản này **không tự huấn luyện lại khi có người truy cập**. Huấn luyện nên chạy như một quy trình riêng có kiểm tra dữ liệu, đánh giá validation/test và chỉ thay checkpoint đang phục vụ sau khi đạt điều kiện.
 
 Nguồn: [Open-Meteo](https://open-meteo.com/) và [SOFTS upstream](https://github.com/Secilia-Cxy/SOFTS). Giữ lại thông tin giấy phép và trích dẫn của repository SOFTS gốc.
+
+
+## CI/CD - Tự động kiểm tra và triển khai
+
+Dự án sử dụng GitHub Actions và Render để tự động hóa quá trình cập nhật.
+
+### Continuous Integration (CI)
+Khi có commit mới trên nhánh experiment/softs-dinov3-encoder, GitHub Actions tự động:
+- Kiểm tra cú pháp Python.
+- Kiểm tra các thư viện cần thiết.
+- Kiểm tra checkpoint, scaler và config của SOFTS.
+- Kiểm tra các thành phần giao diện website.
+- Xác nhận backend sử dụng mô hình SOFTS gốc.
+
+### Continuous Deployment (CD)
+Sau khi toàn bộ CI checks thành công, Render tự động:
+- Build lại ứng dụng FastAPI.
+- Nạp mô hình SOFTS và các tệp trọng số.
+- Triển khai phiên bản mới lên website.
+
+Nếu CI thất bại, Render không tự động triển khai commit đó.
+
+### Công nghệ sử dụng
+- GitHub: Quản lý mã nguồn.
+- GitHub Actions: Tự động kiểm tra CI.
+- Render: Triển khai CD.
+
+Website: https://hanoi-weather-ai.onrender.com
