@@ -1,0 +1,5 @@
+Copy your matching deployment artifacts from Google Drive here:
+- checkpoint.pth
+- scaler.pkl
+- config.json
+All three must come from the same final training run.

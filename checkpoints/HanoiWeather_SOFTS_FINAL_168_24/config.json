@@ -1,0 +1,42 @@
+{
+  "model": "SOFTS",
+  "seq_len": 168,
+  "pred_len": 24,
+  "features": [
+    "temperature_2m",
+    "relative_humidity_2m",
+    "precipitation",
+    "wind_speed_10m",
+    "cloud_cover"
+  ],
+  "freq": "h",
+  "d_model": 128,
+  "d_core": 64,
+  "d_ff": 128,
+  "e_layers": 2,
+  "dropout": 0.0,
+  "activation": "gelu",
+  "use_norm": true,
+  "train_stride": 6,
+  "scaler_type": "StandardScaler",
+  "data_start": "1940-01-01 05:00:00",
+  "data_end": "2025-12-31 23:00:00",
+  "output_constraints": {
+    "relative_humidity_2m": [
+      0,
+      100
+    ],
+    "precipitation": [
+      0,
+      null
+    ],
+    "wind_speed_10m": [
+      0,
+      null
+    ],
+    "cloud_cover": [
+      0,
+      100
+    ]
+  }
+}
