@@ -97,7 +97,8 @@ jobs:
           print("Output: 24 hours x 5 features")
           PY
 
-      # 6. Kiểm tra giao diện
+      
+            # 6. Kiểm tra giao diện HanoiWeather
       - name: Validate website frontend
         run: |
           python - <<'PY'
@@ -109,11 +110,13 @@ jobs:
           html = page.read_text(encoding="utf-8")
 
           required = [
-              'id="overview"',
-              'id="forecast"',
-              'id="forecastChart"',
-              'id="model"',
-              'id="data"'
+              'id="app"',
+              'id="view-overview"',
+              'id="view-hourly"',
+              'id="aiChart"',
+              'id="view-daily"',
+              'id="view-model"',
+              'id="view-data"'
           ]
 
           for item in required:
@@ -122,6 +125,16 @@ jobs:
           print("Website frontend: VALID")
           PY
 
-      # 7. Thông báo kết quả
-      - name: CI completed
-        run: echo "All HanoiWeather CI checks passed!"
+      # 7. Kiểm tra mô hình được website sử dụng
+      - name: Validate deployed model selection
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          app = Path("app.py").read_text(encoding="utf-8")
+
+          assert "from models import SOFTS" in app
+          assert "SOFTS.Model(args)" in app
+
+          print("Deployed model: Original SOFTS")
+          PY
